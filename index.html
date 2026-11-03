@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Maquette de test · Institut de Psychoboxe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@600;700&display=swap">
+<style>
+/* Mise en page : une colonne lisible (max 70rem), en-tête léger, les trois cordes du ring en pied de page */
+:root {
+  --paper: #f5f7f3;
+  --surface: #ffffff;
+  --ink: #1f2a24;
+  --muted: #55625a;
+  --line: #dbe3da;
+  --accent: #3d7558;
+  --accent-ink: #ffffff;
+  --accent-soft: #e5efe7;
+  --ok: #2b6a45;
+  --warn-bg: #fdf1cf;
+  --warn-ink: #4a3a08;
+  --display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --body: "Atkinson Hyperlegible", Verdana, "Segoe UI", sans-serif;
+  --radius: 10px;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121714; --surface: #1a211c; --ink: #e7eee9; --muted: #a8b6ac; --line: #2d3931;
+    --accent: #8cc6a1; --accent-ink: #0f1a13; --accent-soft: #20332a; --ok: #8cc6a1;
+    --warn-bg: #3b3115; --warn-ink: #f6e7b8; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121714; --surface: #1a211c; --ink: #e7eee9; --muted: #a8b6ac; --line: #2d3931;
+  --accent: #8cc6a1; --accent-ink: #0f1a13; --accent-soft: #20332a; --ok: #8cc6a1;
+  --warn-bg: #3b3115; --warn-ink: #f6e7b8; color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+html { font-size: 112.5%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper); color: var(--ink);
+  font-family: var(--body); font-size: 1rem; line-height: 1.6;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; letter-spacing: .01em; }
+h1 { font-size: clamp(2.2rem, 7vw, 3.4rem); font-weight: 700; }
+h2 { font-size: clamp(1.6rem, 4.5vw, 2.1rem); font-weight: 700; }
+h3 { font-size: 1.35rem; font-weight: 600; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wrap { max-width: 70rem; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.prose { max-width: 40rem; display: grid; gap: 1rem; }
+.muted { color: var(--muted); }
+.eyebrow { font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+/* Cordes du ring */
+.ropes { height: 10px; background: repeating-linear-gradient(to bottom, var(--accent) 0 2px, transparent 2px 4px); opacity: .45; }
+
+.skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--accent-ink); padding: .75rem 1rem; z-index: 30; }
+.skip:focus { left: var(--gutter-l); }
+
+/* Bandeau « maquette de test » */
+.demo-strip { background: var(--warn-bg); color: var(--warn-ink); font-size: .9rem; border-bottom: 1px solid var(--line); }
+.demo-strip .wrap { padding-block: .6rem; display: flex; flex-wrap: wrap; gap: .3rem 1rem; align-items: baseline; }
+.demo-strip strong { letter-spacing: .06em; text-transform: uppercase; }
+.demo-strip a { color: inherit; font-weight: 700; }
+.demo-badge { position: fixed; left: calc(1rem + env(safe-area-inset-left, 0px)); bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); z-index: 15; background: var(--warn-bg); color: var(--warn-ink); border: 1px solid var(--line); border-radius: 999px; padding: .4rem .9rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; pointer-events: none; }
+
+/* En-tête */
+header.site { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+header.site .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1rem; padding-block: .5rem; }
+.brand { font-family: var(--display); font-size: 1.35rem; font-weight: 700; line-height: 1; text-decoration: none; color: var(--ink); }
+.menu-btn {
+  display: inline-flex; align-items: center; gap: .55rem; min-height: 48px; padding: 0 1rem;
+  font: inherit; font-weight: 700; color: var(--ink); background: var(--paper);
+  border: 2px solid var(--line); border-radius: 8px; cursor: pointer;
+}
+.menu-btn i { display: grid; gap: 4px; }
+.menu-btn i::before, .menu-btn i::after, .menu-btn i span { content: ""; display: block; width: 20px; height: 2px; background: currentColor; transition: transform .2s; }
+.menu-btn[aria-expanded="true"] i::before { transform: translateY(6px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] i::after { transform: translateY(-6px) rotate(-45deg); }
+.menu-btn[aria-expanded="true"] i span { opacity: 0; }
+nav.main ul { list-style: none; margin: 0; padding: 0; }
+nav.main a { display: block; text-decoration: none; color: var(--ink); font-weight: 700; border-radius: 8px; }
+nav.main a[aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
+@media (max-width: 1099px) {
+  nav.main { flex-basis: 100%; display: grid; grid-template-rows: 0fr; transition: grid-template-rows .25s ease; }
+  nav.main.open { grid-template-rows: 1fr; }
+  nav.main > div { overflow: hidden; }
+  nav.main:not(.open) ul { visibility: hidden; }
+  nav.main ul { display: grid; gap: .25rem; padding-bottom: 1rem; }
+  nav.main a { padding: .8rem 1rem; font-size: 1.1rem; border: 1px solid var(--line); }
+}
+@media (min-width: 1100px) {
+  .menu-btn { display: none; }
+  nav.main ul { display: flex; flex-wrap: wrap; gap: .1rem; }
+  nav.main a { padding: .5rem .7rem; font-size: .95rem; }
+  nav.main a:hover { background: var(--accent-soft); }
+}
+
+/* Vues (pages) */
+main { padding-block: 2rem 4rem; }
+.view { display: grid; gap: 2.5rem; animation: rise .3s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+.page-head { display: grid; gap: .6rem; }
+.page-head p { max-width: 40rem; font-size: 1.1rem; color: var(--muted); }
+section.block { display: grid; gap: 1.2rem; }
+
+/* Boutons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 52px; padding: 0 1.4rem; border-radius: 8px; border: 2px solid var(--accent);
+  background: var(--accent); color: var(--accent-ink); font: inherit; font-weight: 700;
+  text-decoration: none; cursor: pointer; transition: transform .15s, box-shadow .15s;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px -6px var(--accent); text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.small { min-height: 44px; padding: 0 1rem; font-size: .9rem; }
+.btn.quiet { background: transparent; color: var(--ink); border-color: var(--line); }
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+/* Grilles et cartes */
+.grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; display: grid; gap: .6rem; align-content: start; min-width: 0; transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--accent); }
+.card .tag { font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.card .more { font-weight: 700; margin-top: .2rem; }
+
+/* Accueil */
+.hero { display: grid; gap: 2rem; align-items: center; }
+@media (min-width: 860px) { .hero { grid-template-columns: 1.5fr 1fr; } }
+.hero .lead { font-size: 1.2rem; max-width: 34rem; }
+.round { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.round .clock { font-family: var(--display); font-size: 4.5rem; font-weight: 700; line-height: 1; color: var(--accent); padding: 1.25rem 1.25rem .25rem; font-variant-numeric: tabular-nums; }
+.round ul { list-style: none; margin: 0; padding: 0 1.25rem 1.25rem; display: grid; gap: .6rem; }
+.round li { padding-left: 1.2rem; position: relative; }
+.round li::before { content: ""; position: absolute; left: 0; top: .65em; width: .5rem; height: .5rem; border-radius: 50%; background: var(--accent); }
+.quote { border-left: 4px solid var(--accent); padding: .25rem 0 .25rem 1.25rem; display: grid; gap: .8rem; max-width: 42rem; }
+.quote footer { font-weight: 700; }
+.notice { background: var(--accent-soft); border-radius: var(--radius); padding: 1.25rem; display: grid; gap: .8rem; }
+.split { display: grid; gap: 2rem; }
+@media (min-width: 860px) { .split { grid-template-columns: 1fr 1fr; } }
+.list-plain { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.row-link { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .9rem 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; text-decoration: none; color: var(--ink); }
+.row-link:hover { border-color: var(--accent); }
+.row-link b { font-family: var(--display); font-size: 1.25rem; }
+.row-link span { color: var(--muted); font-size: .9rem; }
+.row-link::after { content: "›"; color: var(--accent); font-size: 1.5rem; line-height: 1; }
+
+/* Étapes (psychoboxe) */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; counter-reset: s; }
+@media (min-width: 860px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+.steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; display: grid; gap: .5rem; align-content: start; }
+.steps li::before { content: "Temps " counter(s); font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+/* Bureau */
+.people { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+.people div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: .8rem 1rem; }
+.people b { display: block; }
+.people span { color: var(--muted); font-size: .9rem; }
+
+/* Filtres */
+.filters { display: grid; gap: 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; }
+@media (min-width: 700px) { .filters { grid-template-columns: 2fr 1fr; align-items: end; } }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chips button { min-height: 44px; padding: 0 1rem; font: inherit; font-weight: 700; border-radius: 999px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.chips button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+/* Formulaires */
+.field { display: grid; gap: .35rem; }
+.field label { font-weight: 700; }
+.field .hint { font-size: .85rem; color: var(--muted); }
+input, select, textarea {
+  width: 100%; min-height: 52px; padding: .7rem .9rem; font: inherit; color: var(--ink);
+  background: var(--paper); border: 2px solid var(--line); border-radius: 8px;
+}
+textarea { min-height: 9rem; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+form.stack { display: grid; gap: 1.1rem; max-width: 40rem; }
+.success { border: 2px solid var(--ok); color: var(--ink); border-radius: var(--radius); padding: 1.25rem; display: grid; gap: .5rem; }
+.success b { color: var(--ok); }
+
+/* Annuaire */
+.dir-group { display: grid; gap: .8rem; }
+.dir-group h3 { border-bottom: 1px solid var(--line); padding-bottom: .3rem; }
+.person { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: .9rem 1rem; display: grid; gap: .15rem; min-width: 0; }
+.person b { font-size: 1.05rem; }
+.person span { color: var(--muted); font-size: .9rem; }
+.person a { overflow-wrap: anywhere; font-weight: 700; }
+.count { font-weight: 700; }
+
+/* Pages légales */
+mark { background: var(--accent-soft); color: var(--ink); padding: 0 .25em; border-radius: 3px; }
+dl.legal { display: grid; gap: .2rem 1.5rem; margin: 0; }
+@media (min-width: 700px) { dl.legal { grid-template-columns: 14rem 1fr; } }
+dl.legal dt { font-weight: 700; }
+dl.legal dd { margin: 0 0 .7rem; }
+
+/* Admin */
+.admin-top { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: .5rem; }
+.admin-tabs button { min-height: 48px; padding: 0 1rem; font: inherit; font-weight: 700; border-radius: 8px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.admin-tabs button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.admin-tabs .badge { display: inline-grid; place-items: center; min-width: 1.5rem; height: 1.5rem; margin-left: .35rem; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: .8rem; }
+.admin-panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; display: grid; gap: 1rem; }
+.admin-row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between; padding: .9rem 0; border-top: 1px solid var(--line); }
+.admin-row:first-of-type { border-top: 0; }
+.admin-row .info { min-width: 0; flex: 1 1 16rem; }
+.admin-row .info b { display: block; overflow-wrap: anywhere; }
+.admin-row .info span { color: var(--muted); font-size: .9rem; }
+.confirm { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; font-weight: 700; }
+.login { max-width: 28rem; }
+
+.toast { position: fixed; left: 50%; bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 150%); background: var(--ink); color: var(--paper); padding: .9rem 1.25rem; border-radius: 8px; font-weight: 700; transition: transform .25s; z-index: 40; max-width: calc(100% - 2rem); }
+.toast.show { transform: translate(-50%, 0); }
+
+/* Pied de page */
+footer.site { background: var(--surface); }
+footer.site .cols { display: grid; gap: 1.5rem; padding-block: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+footer.site h2 { font-size: 1.2rem; margin-bottom: .5rem; }
+footer.site ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }
+footer.site .legal-line { border-top: 1px solid var(--line); padding-block: 1rem; font-size: .85rem; color: var(--muted); }
+.to-top { position: fixed; right: calc(1rem + env(safe-area-inset-right, 0px)); bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); min-height: 48px; padding: 0 1rem; border-radius: 999px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 15; }
+.to-top.show { opacity: 1; pointer-events: auto; }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<div class="demo-strip" role="note"><div class="wrap"><strong>Maquette de test</strong><span>Ce n'est pas le site officiel. Rien n'est enregistré ni envoyé. Site officiel : <a href="https://www.psychoboxe.com/" target="_blank" rel="noopener">psychoboxe.com</a></span></div></div>
+<div class="demo-badge" aria-hidden="true">Maquette</div>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="brand" href="#accueil">Institut de Psychoboxe</a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><i><span></span></i>Menu</button>
+    <nav class="main" id="nav" aria-label="Menu principal"><div>
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#institut">L'Institut</a></li>
+        <li><a href="#psychoboxe">La Psychoboxe</a></li>
+        <li><a href="#actualites">Actualités</a></li>
+        <li><a href="#formations">Formations</a></li>
+        <li><a href="#references">Références</a></li>
+        <li><a href="#interventions">Interventions</a></li>
+        <li><a href="#annuaire">Annuaire</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div></nav>
+  </div>
+</header>
+
+<main id="contenu" class="wrap" tabindex="-1">
+
+<!-- ACCUEIL -->
+<div class="view" data-view="accueil" data-title="Accueil">
+  <div class="hero">
+    <div style="display:grid;gap:1.2rem">
+      <p class="eyebrow">Thérapie psychocorporelle · gestion de la violence</p>
+      <h1>Institut de Psychoboxe</h1>
+      <p class="lead">La psychoboxe est un dispositif thérapeutique original, fondé par Richard Hellbrunn. On combat en retenant ses coups. On touche. On est touché et on en parle.</p>
+      <div class="actions">
+        <a class="btn" href="#psychoboxe">Découvrir la psychoboxe</a>
+        <a class="btn ghost" href="#annuaire">Trouver un praticien</a>
+      </div>
+    </div>
+    <aside class="round" aria-label="La psychoboxe en bref">
+      <div class="clock">1′30</div>
+      <ul>
+        <li>Un assaut d'une minute trente, coups fortement atténués.</li>
+        <li>Deux psychoboxeurs : l'un met les gants, l'autre tient la place de tiers symbolique.</li>
+        <li>Puis un temps de parole sur ce que le combat a réveillé.</li>
+      </ul>
+    </aside>
+  </div>
+
+  <section class="block">
+    <h2>Le mot du président d'honneur</h2>
+    <blockquote class="quote" style="margin:0">
+      <p>La Psychoboxe a 45 ans. Bel âge pour une chimère ! Et quel étrange dispositif psycho-corporel. Qui aurait pu penser articuler à leurs limites la boxe, la psychanalyse et la scène ? Depuis cette limite, R. Hellbrunn a fondé cet alliage paradoxal. Il l'a mis au service de tous ceux qui désirent explorer leurs rapports archaïques à la violence.</p>
+      <p>Il nous appartient aujourd'hui de prolonger cet acte créateur, qui réactualise un champ anthropologique et thérapeutique inédit. Bonne découverte sur notre site et en espérant vous rencontrer bientôt !</p>
+      <footer>Lionel Raufast, président d'honneur</footer>
+    </blockquote>
+  </section>
+
+  <section class="block">
+    <div class="admin-top"><h2>Dernières actualités</h2><a href="#actualites">Toutes les actualités ›</a></div>
+    <div class="grid" id="home-news"></div>
+  </section>
+
+  <section class="block">
+    <div class="admin-top"><h2>Prochaines formations</h2><a href="#formations">Toutes les formations ›</a></div>
+    <ul class="list-plain" id="home-formations"></ul>
+  </section>
+
+  <div class="notice">
+    <h2 style="font-size:1.4rem">Signaler une pratique</h2>
+    <p>Si vous constatez des pratiques questionnantes ou non déontologiques effectuées au nom de la psychoboxe, n'hésitez pas à nous écrire.</p>
+    <div><a class="btn" href="#contact">Nous écrire</a></div>
+  </div>
+</div>
+
+<!-- INSTITUT -->
+<div class="view" data-view="institut" data-title="L'Institut" hidden>
+  <div class="page-head">
+    <p class="eyebrow">L'Institut</p>
+    <h1>Qui sommes-nous ?</h1>
+    <p>Une association régie par la loi du 1er juillet 1901 et le décret du 16 août 1901.</p>
+  </div>
+  <section class="block prose">
+    <p>L'Institut de Psychoboxe a pour but de promouvoir, de développer, de garantir, de transmettre, d'évaluer, de superviser et de publier la psychoboxe dans le respect de son cadre et de son champ d'application.</p>
+    <p>Il a également pour fonction de former, de superviser et d'habiliter des praticiens, et d'agréer des lieux de pratique en spécifiant s'il s'agit d'une application dans le champ éducatif, thérapeutique ou formateur.</p>
+    <h2>Un lieu de ressources</h2>
+    <p>L'Institut informe les praticiens et formateurs de la psychoboxe sur :</p>
+    <ul style="margin:0;padding-left:1.2rem;display:grid;gap:.3rem">
+      <li>les praticiens et lieux agréés par l'Institut ;</li>
+      <li>le <a href="https://www.psychoboxe.com/_files/ugd/27110d_a0c36de0d899440ea7ce328151df26c1.pdf" target="_blank" rel="noopener">code de déontologie</a> (réactualisé tous les ans lors de l'assemblée générale) ;</li>
+      <li>les modalités d'agrément des lieux ainsi que le règlement intérieur ;</li>
+      <li>les modalités d'habilitation des praticiens ;</li>
+      <li>les derniers travaux et publications autour de la psychoboxe.</li>
+    </ul>
+  </section>
+  <section class="block">
+    <h2>Le Bureau</h2>
+    <div class="people" id="bureau"></div>
+  </section>
+  <section class="block">
+    <h2>Le Conseil d'administration</h2>
+    <div class="people" id="ca"></div>
+  </section>
+</div>
+
+<!-- PSYCHOBOXE -->
+<div class="view" data-view="psychoboxe" data-title="La Psychoboxe" hidden>
+  <div class="page-head">
+    <p class="eyebrow">La Psychoboxe</p>
+    <h1>Qu'est-ce que la psychoboxe ?</h1>
+    <p>Un dispositif thérapeutique original, fondé par Richard Hellbrunn.</p>
+  </div>
+  <ol class="steps">
+    <li><h3>L'assaut</h3><p>On pratique un assaut d'une minute trente en présence de deux psychoboxeurs. La force des coups est fortement atténuée pour atteindre une sécurité optimale.</p></li>
+    <li><h3>Le tiers symbolique</h3><p>L'un des psychoboxeurs met les gants, l'autre se place en « tiers symbolique » et dirige les temps de verbalisation.</p></li>
+    <li><h3>La parole</h3><p>On parle de ce que cette mise en scène de combat a pu réveiller. C'est là que commence le travail sur soi.</p></li>
+  </ol>
+  <section class="block prose">
+    <p>Le binôme de psychoboxeurs est obligatoirement composé d'un psychologue, d'un psychanalyste ou d'un psychiatre, garant clinique du processus thérapeutique.</p>
+    <p style="font-family:var(--display);font-size:1.6rem;font-weight:600;line-height:1.2">On combat en retenant ses coups. On touche. On est touché et on en parle !</p>
+  </section>
+  <blockquote class="quote" style="margin:0">
+    <p>« La psychoboxe a pour but de permettre à un sujet, à travers ses gestes, ses affects et ses représentations, de remettre en jeu l'universalité des processus et la singularité des positions qui émergent de sa confrontation à ce qui lui est violence dans son corps, sa parole et ses actes.</p>
+    <p>La psychoboxe ne se soutient que de l'ouverture d'une scène qui appelle un sujet à interpréter sa violence en la précipitant dans des formes perceptibles. »</p>
+    <footer>Richard Hellbrunn</footer>
+  </blockquote>
+  <div class="split">
+    <div class="card">
+      <h3>Code de déontologie</h3>
+      <p>Le cadre de la pratique, réactualisé chaque année en assemblée générale.</p>
+      <a class="more" href="https://www.psychoboxe.com/_files/ugd/27110d_a0c36de0d899440ea7ce328151df26c1.pdf" target="_blank" rel="noopener">Lire le code (PDF) ↗</a>
+    </div>
+    <div class="card">
+      <h3>Une dénomination protégée</h3>
+      <p>La dénomination « Psychoboxe » a été déposée par son fondateur le 9 décembre 2002 à Strasbourg, et renouvelée en 2012. N° INPI : 02 31 98 407 1.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ACTUALITES -->
+<div class="view" data-view="actualites" data-title="Actualités" hidden>
+  <div class="page-head">
+    <p class="eyebrow">Actualités</p>
+    <h1>Les nouvelles de la psychoboxe</h1>
+    <p>Livres, articles, vidéos et rencontres.</p>
+  </div>
+  <div class="grid" id="all-news"></div>
+</div>
+
+<!-- FORMATIONS -->
+<div class="view" data-view="formations" data-title="Formations" hidden>
+  <div class="page-head">
+    <p class="eyebrow">Formations 2026-2027</p>
+    <h1>Se former à la psychoboxe</h1>
+    <p>Des formations dans toute la France. Téléchargez la plaquette de la ville qui vous intéresse.</p>
+  </div>
+  <div class="grid" id="all-formations"></div>
+  <div class="actions">
+    <a class="btn ghost" href="https://www.psychoboxe.com/_files/ugd/27110d_59f3a0c1f5ba408bb8b5f7b1fe03e5b7.pdf" target="_blank" rel="noopener">Plus d'informations (PDF) ↗</a>
+  </div>
+</div>
+
+<!-- REFERENCES -->
+<div class="view" data-view="references" data-title="Références" hidden>
+  <div class="page-head">
+    <p class="eyebrow">Références</p>
+    <h1>Articles, presse et textes</h1>
+    <p>Choisissez une catégorie pour filtrer la liste.</p>
+  </div>
+  <div class="chips" id="ref-chips" role="group" aria-label="Filtrer par catégorie"></div>
+  <div class="grid" id="all-refs"></div>
+  <section class="block">
+    <h2>Conférences</h2>
+    <p class="muted">Aucune conférence annoncée pour le moment.</p>
+  </section>
+</div>
+
+<!-- INTERVENTIONS -->
+<div class="view" data-view="interventions" data-title="Interventions" hidden>
+  <div class="page-head">
+    <p class="eyebrow">Interventions</p>
+    <h1>L'Institut intervient</h1>
+    <p>L'Institut met à disposition ses membres formateurs auprès des structures et des personnes.</p>
+  </div>
+  <div class="split">
+    <div class="card">
+      <h2 style="font-size:1.5rem">Auprès de structures</h2>
+      <ul style="margin:0;padding-left:1.2rem;display:grid;gap:.5rem">
+        <li>Analyse de pratiques professionnelles centrée sur les positionnements éducatifs et/ou soignants face à la violence archaïque.</li>
+        <li>Formation d'équipe à la psychoboxe.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2 style="font-size:1.5rem">Auprès de personnes</h2>
+      <ul style="margin:0;padding-left:1.2rem;display:grid;gap:.5rem">
+        <li>Informer sur la pratique de la psychoboxe.</li>
+        <li>Accompagner dans le cadre d'un suivi thérapeutique.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="actions"><a class="btn" href="#contact">Demander une intervention</a></div>
+  <section class="block">
+    <h2>Partenaires</h2>
+    <div class="grid" id="partenaires"></div>
+  </section>
+</div>
+
+<!-- ANNUAIRE -->
+<div class="view" data-view="annuaire" data-title="Annuaire" hidden>
+  <div class="page-head">
+    <p class="eyebrow">Annuaire 2026</p>
+    <h1>Trouver un praticien</h1>
+    <p>Les membres praticiens et didacticiens de l'Institut de Psychoboxe.</p>
+  </div>
+  <div class="filters">
+    <div class="field">
+      <label for="dir-q">Rechercher un nom ou une ville</label>
+      <input id="dir-q" type="search" placeholder="Par exemple : Strasbourg" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="dir-region">Région</label>
+      <select id="dir-region"><option value="">Toutes les régions</option></select>
+    </div>
+  </div>
+  <p class="count" id="dir-count" aria-live="polite"></p>
+  <div id="dir-list" style="display:grid;gap:2rem"></div>
+  <div class="card">
+    <h3>Flyers à télécharger</h3>
+    <a class="more" href="https://www.psychoboxe.com/_files/ugd/27110d_da5a21d01e764b099aeb35523d7069c6.pdf" target="_blank" rel="noopener">Ouvrir les flyers (PDF) ↗</a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="view" data-view="contact" data-title="Contact" hidden>
+  <div class="page-head">
+    <p class="eyebrow">Contact</p>
+    <h1>Nous écrire</h1>
+    <p>Le secrétariat vous répond par e-mail. Tous les champs sont obligatoires.</p>
+  </div>
+  <form class="stack" id="contact-form">
+    <div class="field"><label for="c-nom">Votre nom</label><input id="c-nom" name="nom" required autocomplete="name"></div>
+    <div class="field"><label for="c-email">Votre adresse e-mail</label><span class="hint">Pour que nous puissions vous répondre.</span><input id="c-email" name="email" type="email" required autocomplete="email"></div>
+    <div class="field"><label for="c-objet">Objet</label>
+      <select id="c-objet" name="objet">
+        <option>Question sur la psychoboxe</option>
+        <option>Formations</option>
+        <option>Demande d'intervention</option>
+        <option>Signaler une pratique non déontologique</option>
+        <option>Autre</option>
+      </select></div>
+    <div class="field"><label for="c-msg">Votre message</label><textarea id="c-msg" name="message" required></textarea></div>
+    <p class="muted" style="font-size:.85rem">Vos informations servent uniquement à vous répondre. Voir la <a href="#confidentialite">politique de confidentialité</a>.</p>
+    <div><button class="btn" type="submit">Envoyer le message</button></div>
+  </form>
+  <div class="success" id="contact-ok" hidden>
+    <b>Merci, votre message a bien été transmis au secrétariat.</b>
+    <p>Maquette : le message apparaît dans l'espace administrateur, onglet « Messages ».</p>
+    <div><button class="btn quiet small" type="button" id="contact-again">Écrire un autre message</button></div>
+  </div>
+</div>
+
+<!-- MENTIONS LEGALES -->
+<div class="view" data-view="mentions-legales" data-title="Mentions légales" hidden>
+  <div class="page-head"><p class="eyebrow">Informations légales</p><h1>Mentions légales</h1></div>
+  <dl class="legal">
+    <dt>Éditeur du site</dt><dd>Institut de Psychoboxe, association loi 1901<br>Siège : <mark>adresse à compléter</mark><br>N° RNA : <mark>W… à compléter</mark> · SIRET : <mark>à compléter</mark></dd>
+    <dt>Directeur de la publication</dt><dd>Ghislain Pateux, président</dd>
+    <dt>Contact</dt><dd>Via le <a href="#contact">formulaire de contact</a></dd>
+    <dt>Hébergement du site</dt><dd><mark>Cloudflare, Inc. — adresse à compléter selon l'hébergeur choisi</mark></dd>
+    <dt>Hébergement des données</dt><dd><mark>Supabase — région UE, adresse à compléter</mark></dd>
+    <dt>Propriété intellectuelle</dt><dd>« Psychoboxe » est une dénomination déposée à l'INPI (n° 02 31 98 407 1). Les textes et documents du site appartiennent à leurs auteurs.</dd>
+  </dl>
+</div>
+
+<!-- CONFIDENTIALITE -->
+<div class="view" data-view="confidentialite" data-title="Confidentialité" hidden>
+  <div class="page-head"><p class="eyebrow">Informations légales</p><h1>Politique de confidentialité</h1></div>
+  <section class="block prose">
+    <h2>Formulaire de contact</h2>
+    <p>Nous recueillons votre nom, votre adresse e-mail et votre message, uniquement pour vous répondre. Ces informations sont conservées 12 mois puis supprimées.</p>
+    <h2>Annuaire</h2>
+    <p>Les praticiens et didacticiens figurent dans l'annuaire avec leur accord. Chacun peut demander à tout moment la correction ou le retrait de sa fiche via le formulaire de contact.</p>
+    <h2>Cookies</h2>
+    <p>Ce site n'utilise aucun cookie de mesure d'audience ni de publicité.</p>
+    <h2>Vos droits</h2>
+    <p>Vous pouvez demander l'accès, la correction ou la suppression de vos données en nous écrivant. Vous pouvez aussi adresser une réclamation à la CNIL (cnil.fr).</p>
+    <p>Responsable du traitement : Institut de Psychoboxe, <mark>adresse à compléter</mark>.</p>
+  </section>
+</div>
+
+<!-- CONNEXION ADMIN -->
+<div class="view" data-view="connexion" data-title="Connexion administrateur" hidden>
+  <div class="page-head">
+    <p class="eyebrow">Espace administrateur</p>
+    <h1>Connexion</h1>
+    <p>Réservé aux administrateurs du site. Les visiteurs n'ont pas besoin de compte.</p>
+  </div>
+  <form class="stack login" id="login-form">
+    <div class="field"><label for="l-email">Adresse e-mail</label><input id="l-email" type="email" required autocomplete="username" value="admin@psychoboxe.com"></div>
+    <div class="field"><label for="l-pass">Mot de passe</label><input id="l-pass" type="password" required autocomplete="current-password" value="maquette"></div>
+    <p class="muted" style="font-size:.85rem">Maquette : n'importe quels identifiants fonctionnent. Le vrai site demandera aussi un code reçu sur téléphone.</p>
+    <div class="actions"><button class="btn" type="submit">Se connecter</button><a href="#contact" style="align-self:center">Mot de passe oublié ?</a></div>
+  </form>
+</div>
+
+<!-- ADMIN -->
+<div class="view" data-view="admin" data-title="Espace administrateur" hidden>
+  <div class="admin-top">
+    <div class="page-head"><p class="eyebrow">Espace administrateur</p><h1>Gérer le site</h1></div>
+    <div class="actions"><a class="btn quiet small" href="#accueil">Voir le site</a><button class="btn quiet small" id="logout" type="button">Se déconnecter</button></div>
+  </div>
+  <p class="muted">Choisissez ce que vous voulez modifier. Chaque changement apparaît aussitôt sur le site.</p>
+  <div class="admin-tabs" id="admin-tabs" role="group" aria-label="Rubriques"></div>
+  <div class="admin-panel" id="admin-panel"></div>
+</div>
+
+</main>
+
+<footer class="site">
+  <div class="ropes" aria-hidden="true"></div>
+  <div class="wrap cols">
+    <div>
+      <h2>Institut de Psychoboxe</h2>
+      <p class="muted">Association loi 1901. Formation, supervision et habilitation des praticiens en psychoboxe.</p>
+    </div>
+    <div>
+      <h2>Raccourcis</h2>
+      <ul><li><a href="#annuaire">Trouver un praticien</a></li><li><a href="#formations">Formations</a></li><li><a href="#contact">Nous écrire</a></li></ul>
+    </div>
+    <div>
+      <h2>Informations</h2>
+      <ul><li><a href="#mentions-legales">Mentions légales</a></li><li><a href="#confidentialite">Confidentialité</a></li><li><a href="#connexion">Espace administrateur</a></li></ul>
+    </div>
+  </div>
+  <div class="wrap legal-line">Maquette de test, non officielle · Contenu repris de psychoboxe.com · « Psychoboxe » est une dénomination déposée</div>
+</footer>
+
+<button class="to-top" id="to-top" type="button">↑ Haut de page</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const PDF = id => `https://www.psychoboxe.com/_files/ugd/27110d_${id}.pdf`;
+let uid = 0;
+const withIds = list => list.map(r => ({ id: ++uid, ...r }));
+
+// "Base de données" de démonstration : mêmes tables que dans PLAN-NOUVEAU-SITE.md
+const DB = {
+  actualites: withIds([
+    { date: '2026-09-15', type: 'Livre', titre: 'La boxe comme médiation thérapeutique', texte: "Un nouvel ouvrage collectif aux éditions érès : de la psychoboxe, mais aussi des dispositifs nouveaux en individuel et en groupe, pour les praticiens en libéral et en institution. Coordonné par Louis David et Emmanuelle Jay.", lien: 'https://www.editions-eres.com/ouvrage/5603/la-boxe-comme-mediation-therapeutique' },
+    { date: '2026-05-29', type: 'Livre', titre: 'Freud sur le ring, un abécédaire de la psychoboxe', texte: "Le livre d'Emmanuelle Jay est paru.", lien: 'https://www.eyrolles.com/Loisirs/Livre/freud-sur-le-ring-9782322569809/' },
+    { date: '2026-03-01', type: 'Article', titre: 'Quand la boxe rencontre la psychanalyse', texte: "Un nouvel article d'Emmanuelle Jay dans les Cahiers de l'Actif.", lien: 'https://shs.cairn.info/revue-cahiers-de-l-actif-2025-1-page-155?lang=fr' },
+    { date: '2026-02-01', type: 'Vidéo', titre: 'Une intervention de Ghislain Pateux', texte: "Une intervention autour de la psychoboxe par Ghislain Pateux, didacticien agréé de l'Institut.", lien: 'https://www.youtube.com/live/JTnWq9y3wuc' },
+    { date: '2025-10-01', type: 'Livre', titre: 'Éclats de psychoboxe', texte: "Un livre choral : six praticiens témoignent de leur rencontre avec la psychoboxe, huit chercheurs leur répondent. En vente chez les libraires indépendants, Publishroom Factory, Fnac, Cultura, Decitre.", lien: '' },
+    { date: '2025-06-15', type: 'Vidéo', titre: 'Interview de Lionel Raufast', texte: "La psychoboxe, les intelligences du geste, la clinique du lien : un entretien tiré d'un documentaire sur la psychanalyse.", lien: 'https://youtu.be/dQlDRpX47cQ' },
+    { date: '2025-06-01', type: 'Livre', titre: 'Le dernier ouvrage de Richard Hellbrunn', texte: "Aux éditions Publishroom Factory, chez tous les bons libraires indépendants, Fnac, Cultura, Decitre.", lien: '' },
+    { date: '2025-04-01', type: 'Vidéo', titre: 'Une capsule sur les médiations thérapeutiques', texte: "Un extrait du documentaire « À bon entendeur, salut ! », où il est aussi question de psychoboxe.", lien: 'https://youtu.be/oVD5rD_DgSw' },
+    { date: '2025-01-15', type: 'Texte', titre: 'La lame. Le gant. La flûte.', texte: "Un texte de Dominique Bertrand sur la psychoboxe, du « théâtre de la cruauté » d'Artaud à la flûte des samouraïs devenus moines zen.", lien: '' },
+    { date: '2024-06-01', type: 'Texte', titre: 'Valéry Meynadier : une auteure avec des gants', texte: "Quatre épisodes de Valéry Meynadier, auteure et psychoboxeuse en formation, publiés par la Revue Bancal. Liens à rétablir.", lien: '' },
+    { date: '2024-03-01', type: 'Événement', titre: 'Un collectif dans le 68', texte: "Un collectif se crée dans le Haut-Rhin pour faire vivre la psychoboxe.", lien: '' },
+  ]),
+  formations: withIds([
+    { ville: 'Toulouse', titre: 'Nouvelle formation initiale 2027', texte: 'Formation initiale à la psychoboxe.', lien: PDF('302d3dc9e0e94a118d9867da540a81a5') },
+    { ville: 'Lyon', titre: 'Formation 2026 à l\'UCLy', texte: "En partenariat avec l'Université catholique de Lyon.", lien: 'https://www.ucly.fr/formations/les-formations-de-lucly/toutes-nos-formations/psychoboxe/' },
+    { ville: 'Le Mans', titre: 'Formation psychoboxe', texte: 'Formation à la psychoboxe.', lien: PDF('e3bf39ffc8bd480b953eda0df591867f') },
+    { ville: 'Strasbourg', titre: 'Nouvelle formation 2026/2027', texte: 'Formation à la psychoboxe.', lien: PDF('d684a47a173c41b4af76104b3aa87725') },
+    { ville: 'Nîmes', titre: '« Devenir psychoboxeur » 2027', texte: "Bulletin d'inscription disponible.", lien: PDF('35a7bdc6220345adab039beea3594a47') },
+    { ville: 'Paris', titre: 'Formation psychoboxe 2026', texte: 'Formation à la psychoboxe.', lien: PDF('cbe64efd3001414b872857f6a58fd4a7') },
+    { ville: 'Montpellier', titre: 'Formation psychoboxe', texte: 'Formation à la psychoboxe.', lien: PDF('29a093933cec455981a0dcdc1cb98379') },
+  ]),
+  bureau: withIds([
+    { nom: 'Ghislain Pateux', fonction: 'Président', groupe: 'Bureau' },
+    { nom: 'Benjamin Neyer', fonction: 'Trésorier', groupe: 'Bureau' },
+    { nom: 'Louis David', fonction: 'Secrétaire', groupe: 'Bureau' },
+    { nom: 'Baptiste Benamar', fonction: 'Secrétaire adjoint', groupe: 'Bureau' },
+    { nom: 'Richard Hellbrunn', fonction: "Président d'honneur fondateur", groupe: 'Bureau' },
+    { nom: 'Lionel Raufast', fonction: "Président d'honneur", groupe: 'Bureau' },
+    ...['Baptiste Benamar', 'Elsa Coudrain', 'Louis David', 'Frédéric Lefèvere', 'Benjamin Neyer', 'Guillaume Pagani', 'Ghislain Pateux']
+      .map(nom => ({ nom, fonction: 'Membre du conseil', groupe: "Conseil d'administration" })),
+  ]),
+  references: withIds([
+    { type: 'Article', titre: 'Furie froide et clinique du contre-transfert en psychoboxe', auteur: 'Lionel Raufast, Vincent Estellon', lien: PDF('ec3e291bb31542a0a6b23272e7eb1d63') },
+    { type: 'Article', titre: 'Code de déontologie de la psychoboxe', auteur: 'Institut de Psychoboxe', lien: PDF('a0c36de0d899440ea7ce328151df26c1') },
+    { type: 'Article', titre: 'La sanction en institution', auteur: '', lien: PDF('90d78632b9974525b8bc571ccd22f1e7') },
+    { type: 'Article', titre: 'Le psychoboxeur quitte le ring', auteur: 'Richard Hellbrunn', lien: PDF('20c1b490c7c4403b9251800c274afc0d') },
+    { type: 'Presse', titre: 'Utiliser la boxe pour canaliser la violence et retrouver la confiance en soi', auteur: 'France Bleu', lien: 'https://www.francebleu.fr/infos/societe/la-boxe-comme-therapie-1517504032' },
+    { type: 'Presse', titre: 'La psychoboxe, une thérapie sur le ring, illustrée dans le film « Mon frère »', auteur: 'HuffPost', lien: 'https://www.huffingtonpost.fr/culture/article/dans-mon-frere-mhd-s-essaie-a-la-psychoboxe-une-therapie-sur-le-ring_149490.html' },
+    { type: 'Article', titre: "Sublimation de l'agressivité à l'adolescence : l'exemple de la psychoboxe", auteur: 'Lionel Raufast', lien: PDF('a17294a644254295a0f659582282270a') },
+    { type: 'Article', titre: 'Le Journal des psychologues n° 393', auteur: 'Décembre 2021 / janvier 2022', lien: PDF('9c9122e5ff8a431fad74864e1ede95af') },
+  ]),
+  partenaires: withIds([
+    { nom: 'Centre psychologique interdisciplinaire de médiation et de formation', lien: 'https://mediapsyazur.com/?page_id=166', email: '' },
+    { nom: 'Association de Psychoboxe Auvergne-Rhône-Alpes', lien: 'https://psychoboxeaura.fr/', email: '' },
+    { nom: 'Association EMERGENCE', lien: '', email: 'emergences84@gmail.com' },
+    { nom: 'Association COSTE', lien: 'https://www.assocoste.fr/', email: '' },
+  ]),
+  praticiens: [],
+  messages: [],
+};
+
+// Annuaire : didacticiens puis praticiens par région (repris tel quel du site actuel)
+const DID = `Ledrich Alain|alain.ledrich@orange.fr|Landes|Mont-de-Marsan
+Raufast Lionel|lioraufast@gmail.com|Occitanie|Montpellier
+Gandil Stéphanie|psychoboxe72@gmail.com|Ouest de la France|Le Mans
+Sabatier Somaya|s.ducere@gmail.com|Occitanie|Toulouse
+Weber Sonia|sw.visavie@sfr.fr|Grand Est|Strasbourg
+Commerçon Georges|g.commercon@gmail.com|Auvergne-Rhône-Alpes|Irigny
+Pateux Ghislain|p.ghi@gmx.fr|Occitanie|Nîmes
+Rieussec Julie|julie.rieussec8@gmail.com|Occitanie|Nîmes
+Lefévère Frédéric|flefevere@univ-catholyon.fr|Auvergne-Rhône-Alpes|Lyon
+Neyer Benjamin|tauner@ymail.com|Grand Est|Strasbourg
+Germain Marc|germain.strasbourg@gmail.com|Grand Est|Strasbourg`;
+const PRA = `Alsace
+Bolot Emilie|e.bolot@enfance.fvdp.org
+Bouvret Sabrina|schlachter.sabrina@orange.fr
+Dogan Cihan|cihandogan67@gmail.com
+Froeliger Christophe|cfroeliger@gmail.com
+Govran Sophie|sophie.gorvan@hotmail.fr
+Grandgeorge Gwenael|gwen.grandgeorge@gmail.com
+Muller Olivier|oliviermuller67@gmail.com
+Rehamnia Farid|rehamnia.f@hotmail.fr
+Roch Ludovic|ludovic.roch972@gmail.com
+Schirmer Anne|schirmer.anne@yahoo.fr
+Schmoll François|schmoll.francois@hotmail.fr
+Sidén Claire|sidenclaire@yahoo.fr
+Thomann Benoit|benoit.thomann@live.fr
+Villetet Michael|m.villetet@enfance.fvdp.org
+Weulersse Solveig|solveig.weulersse@gmail.com
+Aude
+Coudrain Elsa|coudrain.elsa@hotmail.fr
+Mahfoudi Nordine|nordine.mahfoudi@gmail.com
+Aveyron
+David Louis|louisdavid95@hotmail.fr
+Bouches-du-Rhône
+Carta Elisa|elisa.caarta@gmail.com
+Beltran Véronique|veronique-beltran@outlook.fr
+Metivier Eric|eric.metivier@groupe-sos.org
+Bretagne
+Dikoma Ferdinand|dikolama@hotmail.fr
+Tilloloy Manon|manon.c.tilloloy@gmail.com
+Gard
+Cabiron Amandine|acabiron@assocoste.fr
+Descolis Emilie|emilie.descolis@justice.fr
+Falduzzi Julie|martinjuliec@yahoo.fr
+Février Lisa|lisamorgadinho@outlook.fr
+Ferreira Cathy|ferreiradasilvacathy@gmail.com
+Girardin Anne|girardin.anne@laposte.net
+Haute-Garonne
+Sagot Catherine|catt.sagot@gmail.com
+Hérault
+Benamar Baptiste|b.benamar@orange.fr
+Etiembre Anouck|anouck.etiembre@gmail.com
+Lorraine
+Perry Elisabeth|elisabethperry4@gmail.com
+Paris
+Chihaoui Thomas|thomas.chihaoui@gmail.com
+Crespo Inés|inescrespo@gmail.com
+Jay Emmanuelle|ej.therapeute@gmail.com
+Laurent Matthieu|m.laurentmatthieu@gmail.com|Val-d'Oise
+Le Corre Vincent|vincent_le_corre@hotmail.com
+Schinner César|cesar.schinner@gmail.com
+Pays de la Loire
+Dupuy Morgane|contact@alternatives49.fr
+Métay Nicolas|nimaline85@gmail.com
+Millet Florian|florian.millet05@gmail.com|Maine-et-Loire
+Rhône-Alpes
+Bages Limoges Olivier|olivier.bageslimoges@protonmail.com
+Bouiller Cécile|contact@entredits.com
+Bourgy Daniel|daniel.bourgy@gmail.com
+El Fassi Gabriel|elfassigabriel@yahoo.fr
+Vincent Laura|laura.carvalhosa@hotmail.fr
+Vaucluse
+Legrand Ophélie|ophelie.leg@hotmail.fr
+Vedel Sébastien|vedelsebastien@gmail.com`;
+DID.split('\n').forEach(l => { const [nom, email, region, ville] = l.split('|'); DB.praticiens.push({ id: ++uid, statut: 'Didacticien', nom, email, region, ville }); });
+let region = '';
+PRA.split('\n').forEach(l => {
+  const p = l.split('|');
+  if (p.length === 1) { region = l; return; }
+  DB.praticiens.push({ id: ++uid, statut: 'Praticien', nom: p[0], email: p[1], region, ville: p[2] || '' });
+});
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fold = s => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const fmtDate = d => d ? new Date(d + 'T12:00').toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }) : '';
+const ext = (href, label, title) => href ? `<a class="more" href="${esc(href)}" target="_blank" rel="noopener">${label}<span class="sr"> : ${esc(title)}</span> ↗</a>` : '';
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 3000); }
+
+const newsCard = n => `<article class="card"><p class="tag">${esc(n.type)} · ${fmtDate(n.date)}</p><h3>${esc(n.titre)}</h3><p>${esc(n.texte)}</p>${ext(n.lien, 'En savoir plus', n.titre)}</article>`;
+const sortedNews = () => [...DB.actualites].sort((a, b) => b.date.localeCompare(a.date));
+
+// Rendu de chaque page à partir de la base
+const render = {
+  accueil() {
+    $('#home-news').innerHTML = sortedNews().slice(0, 3).map(newsCard).join('');
+    $('#home-formations').innerHTML = DB.formations.slice(0, 4).map(f => `<li><a class="row-link" href="#formations"><div><b>${esc(f.ville)}</b><br><span>${esc(f.titre)}</span></div></a></li>`).join('');
+  },
+  institut() {
+    const ppl = g => DB.bureau.filter(p => p.groupe === g).map(p => `<div><b>${esc(p.nom)}</b><span>${esc(p.fonction)}</span></div>`).join('');
+    $('#bureau').innerHTML = ppl('Bureau');
+    $('#ca').innerHTML = ppl("Conseil d'administration");
+  },
+  actualites() { $('#all-news').innerHTML = sortedNews().map(newsCard).join(''); },
+  formations() {
+    $('#all-formations').innerHTML = DB.formations.map(f => `<article class="card"><p class="tag">Formation</p><h3>${esc(f.ville)}</h3><p><b>${esc(f.titre)}</b></p><p class="muted">${esc(f.texte)}</p>${ext(f.lien, 'Voir la plaquette', f.ville)}</article>`).join('');
+  },
+  references() {
+    const types = ['Tout', ...new Set(DB.references.map(r => r.type))];
+    const cur = render.refType || 'Tout';
+    $('#ref-chips').innerHTML = types.map(t => `<button type="button" aria-pressed="${t === cur}" data-t="${esc(t)}">${esc(t)}</button>`).join('');
+    $('#all-refs').innerHTML = DB.references.filter(r => cur === 'Tout' || r.type === cur)
+      .map(r => `<article class="card"><p class="tag">${esc(r.type)}</p><h3>${esc(r.titre)}</h3>${r.auteur ? `<p class="muted">${esc(r.auteur)}</p>` : ''}${ext(r.lien, 'Lire', r.titre)}</article>`).join('');
+  },
+  interventions() {
+    $('#partenaires').innerHTML = DB.partenaires.map(p => `<article class="card"><h3>${esc(p.nom)}</h3>${ext(p.lien, 'Site internet', p.nom)}${p.email ? `<a class="more" href="mailto:${esc(p.email)}">${esc(p.email)}</a>` : ''}</article>`).join('');
+  },
+  annuaire() {
+    const sel = $('#dir-region'), keep = sel.value;
+    const regions = [...new Set(DB.praticiens.map(p => p.region))].sort((a, b) => a.localeCompare(b, 'fr'));
+    sel.innerHTML = '<option value="">Toutes les régions</option>' + regions.map(r => `<option${r === keep ? ' selected' : ''}>${esc(r)}</option>`).join('');
+    const q = fold($('#dir-q').value.trim());
+    const list = DB.praticiens.filter(p => (!sel.value || p.region === sel.value) && (!q || fold(`${p.nom} ${p.ville} ${p.region}`).includes(q)));
+    $('#dir-count').textContent = list.length ? `${list.length} personne${list.length > 1 ? 's' : ''}` : 'Aucun résultat. Essayez une autre ville ou « Toutes les régions ».';
+    const card = p => `<div class="person"><b>${esc(p.nom)}</b><span>${esc([p.ville, p.region].filter(Boolean).join(' · '))}</span><a href="mailto:${esc(p.email)}">${esc(p.email)}</a></div>`;
+    const group = (title, items) => items.length ? `<section class="dir-group"><h3>${esc(title)}</h3><div class="grid">${items.map(card).join('')}</div></section>` : '';
+    const prat = list.filter(p => p.statut === 'Praticien');
+    $('#dir-list').innerHTML = `<div style="display:grid;gap:1rem"><h2>Didacticiens</h2>${group('Formateurs agréés', list.filter(p => p.statut === 'Didacticien')) || '<p class="muted">Aucun didacticien pour cette recherche.</p>'}</div>`
+      + `<div style="display:grid;gap:1rem"><h2>Praticiens</h2>${[...new Set(prat.map(p => p.region))].map(r => group(r, prat.filter(p => p.region === r))).join('') || '<p class="muted">Aucun praticien pour cette recherche.</p>'}</div>`;
+  },
+  admin() { renderAdmin(); },
+};
+
+// Navigation entre les pages (une adresse #page par page)
+let logged = false;
+const views = [...document.querySelectorAll('[data-view]')];
+function show() {
+  let name = location.hash.slice(1) || 'accueil';
+  if (name === 'admin' && !logged) name = 'connexion';
+  const v = views.find(x => x.dataset.view === name);
+  if (!v) { const el = document.getElementById(name); if (el) el.scrollIntoView(); return; }
+  views.forEach(x => x.hidden = x !== v);
+  render[name]?.();
+  document.title = `[Maquette] ${v.dataset.title} · Institut de Psychoboxe`;
+  document.querySelectorAll('nav.main a').forEach(a => a.getAttribute('href') === '#' + name ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+  setMenu(false);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+window.addEventListener('hashchange', show);
+
+function setMenu(open) { $('#menu-btn').setAttribute('aria-expanded', open); $('#nav').classList.toggle('open', open); }
+$('#menu-btn').addEventListener('click', () => setMenu($('#menu-btn').getAttribute('aria-expanded') !== 'true'));
+window.addEventListener('scroll', () => $('#to-top').classList.toggle('show', scrollY > 800), { passive: true });
+$('#to-top').addEventListener('click', () => window.scrollTo({ top: 0 }));
+
+$('#dir-q').addEventListener('input', render.annuaire);
+$('#dir-region').addEventListener('change', render.annuaire);
+$('#ref-chips').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { render.refType = b.dataset.t; render.references(); } });
+
+$('#contact-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = Object.fromEntries(new FormData(e.target));
+  DB.messages.unshift({ id: ++uid, ...f, date: new Date().toISOString().slice(0, 10), lu: false });
+  e.target.reset(); e.target.hidden = true; $('#contact-ok').hidden = false;
+});
+$('#contact-again').addEventListener('click', () => { $('#contact-form').hidden = false; $('#contact-ok').hidden = true; });
+
+$('#login-form').addEventListener('submit', e => { e.preventDefault(); logged = true; location.hash = 'admin'; });
+$('#logout').addEventListener('click', () => { logged = false; location.hash = 'accueil'; toast('Vous êtes déconnecté.'); });
+
+// Espace admin : un formulaire par table, sur le même modèle
+const SCHEMA = {
+  actualites: { label: 'Actualités', one: 'une actualité', title: r => r.titre, sub: r => `${r.type} · ${fmtDate(r.date)}`, fields: [
+    { k: 'titre', l: 'Titre' },
+    { k: 'type', l: 'Catégorie', opts: ['Livre', 'Article', 'Vidéo', 'Texte', 'Événement'] },
+    { k: 'date', l: 'Date', t: 'date' },
+    { k: 'texte', l: 'Texte', t: 'textarea' },
+    { k: 'lien', l: 'Lien', t: 'url', opt: true, hint: 'Facultatif. Adresse complète, commençant par https://' } ] },
+  formations: { label: 'Formations', one: 'une formation', title: r => r.ville, sub: r => r.titre, fields: [
+    { k: 'ville', l: 'Ville' }, { k: 'titre', l: 'Intitulé' }, { k: 'texte', l: 'Description', t: 'textarea' },
+    { k: 'lien', l: 'Lien vers la plaquette', t: 'url', opt: true, hint: 'Sur le vrai site, vous pourrez déposer directement le PDF.' } ] },
+  praticiens: { label: 'Annuaire', one: 'une personne', title: r => r.nom, sub: r => `${r.statut} · ${r.region}`, fields: [
+    { k: 'nom', l: 'Nom et prénom' }, { k: 'statut', l: 'Statut', opts: ['Praticien', 'Didacticien'] },
+    { k: 'region', l: 'Région' }, { k: 'ville', l: 'Ville', opt: true }, { k: 'email', l: 'Adresse e-mail', t: 'email' } ] },
+  bureau: { label: 'Bureau et CA', one: 'un membre', title: r => r.nom, sub: r => `${r.fonction} · ${r.groupe}`, fields: [
+    { k: 'nom', l: 'Nom et prénom' }, { k: 'fonction', l: 'Fonction' }, { k: 'groupe', l: 'Instance', opts: ['Bureau', "Conseil d'administration"] } ] },
+  references: { label: 'Références', one: 'une référence', title: r => r.titre, sub: r => `${r.type}${r.auteur ? ' · ' + r.auteur : ''}`, fields: [
+    { k: 'type', l: 'Catégorie', opts: ['Article', 'Presse', 'Vidéo'] }, { k: 'titre', l: 'Titre' },
+    { k: 'auteur', l: 'Auteur ou source', opt: true }, { k: 'lien', l: 'Lien', t: 'url' } ] },
+  partenaires: { label: 'Partenaires', one: 'un partenaire', title: r => r.nom, sub: r => r.lien || r.email, fields: [
+    { k: 'nom', l: 'Nom' }, { k: 'lien', l: 'Site internet', t: 'url', opt: true }, { k: 'email', l: 'E-mail', t: 'email', opt: true } ] },
+};
+const A = { col: 'actualites', edit: null, del: null };
+
+function renderAdmin() {
+  const unread = DB.messages.filter(m => !m.lu).length;
+  $('#admin-tabs').innerHTML = Object.entries(SCHEMA).map(([k, s]) => `<button type="button" data-col="${k}" aria-pressed="${A.col === k}">${s.label}</button>`).join('')
+    + `<button type="button" data-col="messages" aria-pressed="${A.col === 'messages'}">Messages${unread ? `<span class="badge">${unread}</span>` : ''}</button>`;
+  const P = $('#admin-panel');
+
+  if (A.col === 'messages') {
+    DB.messages.forEach(m => m.lu = true);
+    P.innerHTML = `<h2 style="font-size:1.5rem">Messages reçus</h2>` + (DB.messages.length
+      ? DB.messages.map(m => `<div class="admin-row"><div class="info"><b>${esc(m.objet)} · ${esc(m.nom)}</b><span>${esc(m.email)} · ${fmtDate(m.date)}</span><p style="margin-top:.4rem">${esc(m.message)}</p></div></div>`).join('')
+      : '<p class="muted">Aucun message pour l\'instant. Essayez le formulaire de la page Contact : le message apparaîtra ici.</p>');
+    return;
+  }
+
+  const s = SCHEMA[A.col], rows = DB[A.col];
+  if (A.edit) {
+    const r = A.edit === 'new' ? {} : rows.find(x => x.id === A.edit);
+    P.innerHTML = `<h2 style="font-size:1.5rem">${A.edit === 'new' ? 'Ajouter ' + s.one : 'Modifier ' + s.one}</h2>
+      <form class="stack" id="admin-form">${s.fields.map(f => {
+        const id = `f-${f.k}`, v = esc(r[f.k] ?? (f.t === 'date' ? new Date().toISOString().slice(0, 10) : ''));
+        const req = f.opt ? '' : ' required';
+        const input = f.opts ? `<select id="${id}" name="${f.k}">${f.opts.map(o => `<option${o === r[f.k] ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select>`
+          : f.t === 'textarea' ? `<textarea id="${id}" name="${f.k}"${req}>${v}</textarea>`
+          : `<input id="${id}" name="${f.k}" type="${f.t || 'text'}" value="${v}"${req}>`;
+        return `<div class="field"><label for="${id}">${f.l}${f.opt ? ' <span class="muted">(facultatif)</span>' : ''}</label>${f.hint ? `<span class="hint">${f.hint}</span>` : ''}${input}</div>`;
+      }).join('')}
+      <div class="actions"><button class="btn" type="submit">Enregistrer</button><button class="btn quiet" type="button" data-act="cancel">Annuler</button></div></form>`;
+    P.querySelector('#admin-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      if (A.edit === 'new') rows.push({ id: ++uid, ...data }); else Object.assign(r, data);
+      A.edit = null; renderAdmin(); toast('Enregistré. C\'est visible sur le site.');
+    });
+    P.querySelector('#f-' + s.fields[0].k).focus();
+    return;
+  }
+
+  P.innerHTML = `<div class="admin-top"><h2 style="font-size:1.5rem">${s.label} <span class="muted" style="font-size:1rem">(${rows.length})</span></h2><button class="btn small" type="button" data-act="new">+ Ajouter ${s.one}</button></div>`
+    + rows.map(r => `<div class="admin-row"><div class="info"><b>${esc(s.title(r))}</b><span>${esc(s.sub(r))}</span></div>`
+      + (A.del === r.id
+        ? `<div class="confirm">Supprimer ? <button class="btn small" type="button" data-act="del-yes" data-id="${r.id}">Oui, supprimer</button><button class="btn quiet small" type="button" data-act="del-no">Non</button></div>`
+        : `<div class="actions"><button class="btn quiet small" type="button" data-act="edit" data-id="${r.id}">Modifier</button><button class="btn quiet small" type="button" data-act="del" data-id="${r.id}">Supprimer</button></div>`)
+      + `</div>`).join('');
+}
+$('#admin-tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { A.col = b.dataset.col; A.edit = A.del = null; renderAdmin(); } });
+$('#admin-panel').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const id = Number(b.dataset.id), act = b.dataset.act;
+  if (act === 'new') A.edit = 'new';
+  if (act === 'edit') A.edit = id;
+  if (act === 'cancel') A.edit = null;
+  if (act === 'del') A.del = id;
+  if (act === 'del-no') A.del = null;
+  if (act === 'del-yes') { DB[A.col].splice(DB[A.col].findIndex(r => r.id === id), 1); A.del = null; toast('Supprimé du site.'); }
+  renderAdmin();
+});
+
+show();
+</script>
+</body>
+</html>
