@@ -76,7 +76,7 @@ a:hover { text-decoration-thickness: 2px; }
 .demo-strip .wrap { padding-block: .6rem; display: flex; flex-wrap: wrap; gap: .3rem 1rem; align-items: baseline; }
 .demo-strip strong { letter-spacing: .06em; text-transform: uppercase; }
 .demo-strip a { color: inherit; font-weight: 700; }
-.demo-badge { position: fixed; left: calc(1rem + env(safe-area-inset-left, 0px)); bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); z-index: 15; background: var(--warn-bg); color: var(--warn-ink); border: 1px solid var(--line); border-radius: 999px; padding: .4rem .9rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; pointer-events: none; }
+.demo-badge { display: inline-block; vertical-align: middle; margin-left: .5rem; background: var(--warn-bg); color: var(--warn-ink); border-radius: 999px; padding: .2rem .6rem; font-family: var(--body); font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 
 /* En-tête */
 header.site { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
@@ -242,11 +242,10 @@ footer.site .legal-line { border-top: 1px solid var(--line); padding-block: 1rem
 <a class="skip" href="#contenu">Aller au contenu</a>
 
 <div class="demo-strip" role="note"><div class="wrap"><strong>Maquette de test</strong><span>Ce n'est pas le site officiel. Rien n'est enregistré ni envoyé. Site officiel : <a href="https://www.psychoboxe.com/" target="_blank" rel="noopener">psychoboxe.com</a></span></div></div>
-<div class="demo-badge" aria-hidden="true">Maquette</div>
 
 <header class="site">
   <div class="wrap bar">
-    <a class="brand" href="#accueil">Institut de Psychoboxe</a>
+    <a class="brand" href="#accueil">Institut de Psychoboxe<span class="demo-badge">Maquette</span></a>
     <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav"><i><span></span></i>Menu</button>
     <nav class="main" id="nav" aria-label="Menu principal"><div>
       <ul>
